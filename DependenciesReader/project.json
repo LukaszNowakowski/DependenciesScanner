@@ -1,0 +1,12 @@
+﻿{
+  "dependencies": {
+    "System.IO.Abstractions": "11.0.2"
+  },
+  "frameworks": {
+    "net48": {}
+  },
+  "runtimes": {
+    "win-anycpu": {},
+    "win": {}
+  }
+}

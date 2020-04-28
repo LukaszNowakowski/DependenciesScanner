@@ -5,13 +5,14 @@
     using System.Collections.ObjectModel;
     using System.Globalization;
     using System.IO;
+    using System.IO.Abstractions;
     using System.Linq;
 
     internal static class Program
     {
         private const string DefaultDirectory = @"C:\AzureDevOpsWorkspaces\Packages";
 
-        private static readonly IFileSystemReader FileSystemReader = new FileSystemReader();
+        private static readonly IFileSystemReader FileSystemReader = new FileSystemReader(new FileSystem());
 
         private static readonly IPackageReader PackageReader = new PackageReader();
 

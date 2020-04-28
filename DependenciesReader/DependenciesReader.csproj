@@ -79,6 +79,7 @@
     <Compile Include="DependencyStrategies\DisplayPackagesStrategy.cs" />
     <Compile Include="DependencyStrategies\IStrategy.cs" />
     <Compile Include="DependencyStrategies\SearchChildrenStrategy.cs" />
+    <Compile Include="EnumerationHelpers.cs" />
     <Compile Include="FileSystemReader.cs" />
     <Compile Include="IFileSystemReader.cs" />
     <Compile Include="IPackageReader.cs" />
@@ -87,11 +88,14 @@
     <Compile Include="PackageReader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Location.cs" />
+    <Compile Include="ProjectStructure\Project.cs" />
+    <Compile Include="ProjectStructure\Solution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8">

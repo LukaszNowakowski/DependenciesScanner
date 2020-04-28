@@ -1,0 +1,13 @@
+﻿{
+  "dependencies": {
+    "FluentAssertions": "5.10.3",
+    "System.IO.Abstractions.TestingHelpers": "11.0.2"
+  },
+  "frameworks": {
+    "net48": {}
+  },
+  "runtimes": {
+    "win-anycpu": {},
+    "win": {}
+  }
+}
