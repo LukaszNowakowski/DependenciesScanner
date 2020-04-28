@@ -12,9 +12,12 @@
     {
         private readonly IFileSystem fileSystem;
 
-        public FileSystemReader(IFileSystem fileSystem)
+        private readonly IProjectDetailsReader projectDetailsReader;
+
+        public FileSystemReader(IFileSystem fileSystem, IProjectDetailsReader projectDetailsReader)
         {
             this.fileSystem = fileSystem;
+            this.projectDetailsReader = projectDetailsReader;
         }
 
         public IEnumerable<string> GetPackages(string directory)
@@ -58,7 +61,7 @@
             var projectFile = this.fileSystem.Path.GetFileName(location);
             var projectDirectory = this.fileSystem.Path.GetDirectoryName(location);
             var relativeDirectory = MakeRelativePath(projectDirectory, solutionLocation);
-            return new Project(relativeDirectory, projectFile);
+            return new Project(relativeDirectory, projectFile, this.projectDetailsReader.GetOutputName(location));
         }
     }
 }

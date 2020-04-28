@@ -12,10 +12,13 @@
 
         protected MockFileSystem FileSystem { get; } = new MockFileSystem();
 
+        protected ProjectDetailsReader DetailsReader { get; private set; }
+
         [TestInitialize]
         public virtual void Initialize()
         {
-            this.FileSystemReader = new FileSystemReader(this.FileSystem);
+            this.DetailsReader = new ProjectDetailsReader(this.FileSystem);
+            this.FileSystemReader = new FileSystemReader(this.FileSystem, this.DetailsReader);
         }
     }
 }

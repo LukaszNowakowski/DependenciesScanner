@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="FileSystemReaderTests\FileSystemReaderTestsBase.cs" />
     <Compile Include="FileSystemReaderTests\GetSolutionsTests.cs" />
+    <Compile Include="ProjectDetailsReaderTests\GetOutputNameTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

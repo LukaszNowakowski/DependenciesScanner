@@ -79,7 +79,7 @@
             this.FileSystem.AddFile(@"X:\WorkspaceRoot\Solution1\Solution.sln", new MockFileData("SolutionContents"));
             this.FileSystem.AddFile(
                 @"X:\WorkspaceRoot\Solution1\DataAccess\DataAccess.csproj",
-                new MockFileData("DataAccess contents"));
+                new MockFileData("<Project />"));
             var result = this.FileSystemReader.GetSolutions(@"X:\WorkspaceRoot");
             result.Should()
                 .NotBeNull()

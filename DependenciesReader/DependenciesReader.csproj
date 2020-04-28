@@ -83,11 +83,13 @@
     <Compile Include="FileSystemReader.cs" />
     <Compile Include="IFileSystemReader.cs" />
     <Compile Include="IPackageReader.cs" />
+    <Compile Include="IProjectDetailsReader.cs" />
     <Compile Include="PackageReference.cs" />
     <Compile Include="PackageEqualityComparer.cs" />
     <Compile Include="PackageReader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Location.cs" />
+    <Compile Include="ProjectDetailsReader.cs" />
     <Compile Include="ProjectStructure\Project.cs" />
     <Compile Include="ProjectStructure\Solution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

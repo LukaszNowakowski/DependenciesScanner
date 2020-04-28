@@ -12,7 +12,11 @@
     {
         private const string DefaultDirectory = @"C:\AzureDevOpsWorkspaces\Packages";
 
-        private static readonly IFileSystemReader FileSystemReader = new FileSystemReader(new FileSystem());
+        private static readonly IFileSystem FileSystem = new FileSystem();
+
+        private static readonly IProjectDetailsReader ProjectDetailsReader = new ProjectDetailsReader(FileSystem);
+
+        private static readonly IFileSystemReader FileSystemReader = new FileSystemReader(FileSystem, ProjectDetailsReader);
 
         private static readonly IPackageReader PackageReader = new PackageReader();
 
