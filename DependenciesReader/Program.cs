@@ -8,17 +8,11 @@
     using System.IO.Abstractions;
     using System.Linq;
 
+    using Autofac;
+
     internal static class Program
     {
         private const string DefaultDirectory = @"C:\AzureDevOpsWorkspaces\Packages";
-
-        private static readonly IFileSystem FileSystem = new FileSystem();
-
-        private static readonly IProjectDetailsReader ProjectDetailsReader = new ProjectDetailsReader(FileSystem);
-
-        private static readonly IFileSystemReader FileSystemReader = new FileSystemReader(FileSystem, ProjectDetailsReader);
-
-        private static readonly IPackageReader PackageReader = new PackageReader();
 
         private static readonly Dictionary<Activity, DependencyStrategies.IStrategy> DependencyStrategy = new Dictionary<Activity, DependencyStrategies.IStrategy>()
                                                                                                               {
@@ -26,10 +20,15 @@
                                                                                                                   { Activity.DisplayPackages, new DependencyStrategies.DisplayPackagesStrategy() }
                                                                                                               };
 
+        private static IContainer container;
+
         private static string rootDirectory = string.Empty;
 
         private static void Main()
         {
+            var containerBuilder = new ContainerBuilder();
+            containerBuilder.RegisterModule<ReaderModule>();
+            container = containerBuilder.Build();
             Console.Write("Directory path ('{0}' if empty): ", DefaultDirectory);
             rootDirectory = Console.ReadLine();
             if (string.IsNullOrEmpty(rootDirectory))
@@ -53,11 +52,12 @@
 
         private static IEnumerable<Location> GetProjects(string rootDirectory)
         {
-            var files = FileSystemReader.GetPackages(rootDirectory);
-            var projects = new List<Location>();
+            var fileSystemReader = container.Resolve<IFileSystemReader>();
+            var files = fileSystemReader.GetPackages(rootDirectory);
+            var packageReader = container.Resolve<IPackageReader>();
             foreach (var file in files)
             {
-                var project = PackageReader.GetPackages(file);
+                var project = packageReader.GetPackages(file);
                 yield return project;
             }
         }
