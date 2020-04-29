@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activity.cs" />
+    <Compile Include="DependencyStrategies\BuildDependenciesGraphStrategy.cs" />
     <Compile Include="DependencyStrategies\DisplayPackagesStrategy.cs" />
     <Compile Include="DependencyStrategies\IStrategy.cs" />
     <Compile Include="DependencyStrategies\SearchChildrenStrategy.cs" />

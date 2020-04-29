@@ -6,18 +6,13 @@
 
     using Autofac;
 
+    using DependenciesReader.DependencyStrategies;
     using DependenciesReader.ProjectStructure;
 
     internal static class Program
     {
         private const string DefaultDirectory = @"C:\AzureDevOpsWorkspaces\Packages";
-
-        private static readonly Dictionary<Activity, DependencyStrategies.IStrategy> DependencyStrategy = new Dictionary<Activity, DependencyStrategies.IStrategy>()
-                                                                                                              {
-                                                                                                                  { Activity.SearchChildren, new DependencyStrategies.SearchChildrenStrategy() },
-                                                                                                                  { Activity.DisplayPackages, new DependencyStrategies.DisplayPackagesStrategy() }
-                                                                                                              };
-
+        
         private static IContainer container;
 
         private static string rootDirectory = string.Empty;
@@ -38,10 +33,11 @@
             do
             {
                 activity = SelectActivity();
-                if (DependencyStrategy.ContainsKey(activity))
+                var strategy = GetStrategy(activity);
+                if (strategy != null)
                 {
-                    var strategy = DependencyStrategy[activity];
-                    var projects = GetProjects(rootDirectory).ToList();
+                    var projects = GetProjects(rootDirectory)
+                        .ToList();
                     strategy.CreateReport(projects, Console.WriteLine);
                 }
             }
@@ -87,6 +83,16 @@
             while (result <= 0);
 
             return result;
+        }
+
+        private static IStrategy GetStrategy(Activity activity)
+        {
+            if (container.TryResolveNamed(activity.ToString(), typeof(IStrategy), out object strategy))
+            {
+                return (IStrategy)strategy;
+            }
+
+            return null;
         }
     }
 }
