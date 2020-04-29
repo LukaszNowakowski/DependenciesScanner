@@ -79,19 +79,27 @@
     <Compile Include="DependencyStrategies\DisplayPackagesStrategy.cs" />
     <Compile Include="DependencyStrategies\IStrategy.cs" />
     <Compile Include="DependencyStrategies\SearchChildrenStrategy.cs" />
+    <Compile Include="EnumerationHelpers.cs" />
     <Compile Include="FileSystemReader.cs" />
     <Compile Include="IFileSystemReader.cs" />
-    <Compile Include="IPackageReader.cs" />
+    <Compile Include="IProjectDetailsReader.cs" />
+    <Compile Include="IProjectGenerator.cs" />
+    <Compile Include="ISolutionGenerator.cs" />
     <Compile Include="PackageReference.cs" />
-    <Compile Include="PackageEqualityComparer.cs" />
-    <Compile Include="PackageReader.cs" />
+    <Compile Include="PathHelpers.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Location.cs" />
+    <Compile Include="ProjectDetailsReader.cs" />
+    <Compile Include="ProjectGenerator.cs" />
+    <Compile Include="ProjectStructure\Dependency.cs" />
+    <Compile Include="ProjectStructure\Project.cs" />
+    <Compile Include="ProjectStructure\Solution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReaderModule.cs" />
+    <Compile Include="SolutionGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
+    <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8">
