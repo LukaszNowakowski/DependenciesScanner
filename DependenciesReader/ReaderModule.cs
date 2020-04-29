@@ -13,8 +13,6 @@
                 .AsImplementedInterfaces();
             builder.RegisterType<ProjectDetailsReader>()
                 .AsImplementedInterfaces();
-            builder.RegisterType<PackageReader>()
-                .AsImplementedInterfaces();
             builder.RegisterType<ProjectGenerator>()
                 .AsImplementedInterfaces();
             builder.RegisterType<SolutionGenerator>()

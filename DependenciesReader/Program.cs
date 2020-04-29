@@ -2,13 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Globalization;
-    using System.IO;
-    using System.IO.Abstractions;
     using System.Linq;
 
     using Autofac;
+
+    using DependenciesReader.ProjectStructure;
 
     internal static class Program
     {
@@ -50,16 +48,10 @@
             while (activity != Activity.Exit);
         }
 
-        private static IEnumerable<Location> GetProjects(string rootDirectory)
+        private static IEnumerable<Solution> GetProjects(string rootDirectory)
         {
             var fileSystemReader = container.Resolve<IFileSystemReader>();
-            var files = fileSystemReader.GetPackages(rootDirectory);
-            var packageReader = container.Resolve<IPackageReader>();
-            foreach (var file in files)
-            {
-                var project = packageReader.GetPackages(file);
-                yield return project;
-            }
+            return fileSystemReader.GetSolutions(rootDirectory);
         }
 
         private static Activity SelectActivity()

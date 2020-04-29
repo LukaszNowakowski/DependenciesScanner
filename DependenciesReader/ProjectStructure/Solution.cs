@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.IO;
+    using System.Linq;
 
     public class Solution
     {
@@ -18,6 +19,10 @@
         public string FileName { get; }
 
         public ReadOnlyCollection<Project> Projects { get; }
+
+        public IEnumerable<Dependency> Dependencies =>
+            this.Projects.SelectMany(p => p.Dependencies)
+                .Distinct(new Dependency.Comparer());
 
         public string AbsolutePath(string baseDirectory)
         {

@@ -82,16 +82,12 @@
     <Compile Include="EnumerationHelpers.cs" />
     <Compile Include="FileSystemReader.cs" />
     <Compile Include="IFileSystemReader.cs" />
-    <Compile Include="IPackageReader.cs" />
     <Compile Include="IProjectDetailsReader.cs" />
     <Compile Include="IProjectGenerator.cs" />
     <Compile Include="ISolutionGenerator.cs" />
     <Compile Include="PackageReference.cs" />
-    <Compile Include="PackageEqualityComparer.cs" />
-    <Compile Include="PackageReader.cs" />
     <Compile Include="PathHelpers.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Location.cs" />
     <Compile Include="ProjectDetailsReader.cs" />
     <Compile Include="ProjectGenerator.cs" />
     <Compile Include="ProjectStructure\Dependency.cs" />

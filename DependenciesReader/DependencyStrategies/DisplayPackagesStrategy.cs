@@ -6,12 +6,14 @@
     using System.IO;
     using System.Linq;
 
+    using DependenciesReader.ProjectStructure;
+
     public class DisplayPackagesStrategy : IStrategy
     {
-        public void CreateReport(IList<Location> projects, Action<string> reportWriter)
+        public void CreateReport(IList<Solution> projects, Action<string> reportWriter)
         {
-            var packages = projects.SelectMany(p => p.Packages)
-                .Distinct(new PackageEqualityComparer())
+            var packages = projects.SelectMany(p => p.Dependencies)
+                .Distinct(new Dependency.Comparer())
                 .OrderBy(p => p.Name)
                 .GroupBy(p => p.Name.ToLowerInvariant());
             foreach (var package in packages)
