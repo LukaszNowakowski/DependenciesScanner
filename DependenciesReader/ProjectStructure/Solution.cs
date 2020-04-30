@@ -20,6 +20,8 @@
 
         public ReadOnlyCollection<Project> Projects { get; }
 
+        public IEnumerable<string> OutputNames => this.Projects.Select(p => p.OutputName);
+
         public IEnumerable<Dependency> Dependencies =>
             this.Projects.SelectMany(p => p.Dependencies)
                 .Distinct(new Dependency.Comparer());
