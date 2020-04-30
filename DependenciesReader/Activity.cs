@@ -8,10 +8,6 @@
 
         SearchChildren = 2,
 
-        DisplayPackages = 3,
-
-        BuildDependenciesGraph = 4,
-
-        BuildDependenciesLayers = 5
+        DisplayPackages = 3
     }
 }
