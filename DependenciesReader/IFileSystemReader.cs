@@ -4,6 +4,6 @@
 
     public interface IFileSystemReader
     {
-        IEnumerable<ProjectStructure.Solution> GetSolutions(string directory);
+        IEnumerable<string> GetPackages(string directory);
     }
 }
