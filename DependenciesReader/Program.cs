@@ -2,29 +2,26 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Globalization;
-    using System.IO;
     using System.Linq;
+
+    using Autofac;
+
+    using DependenciesReader.DependencyStrategies;
+    using DependenciesReader.ProjectStructure;
 
     internal static class Program
     {
         private const string DefaultDirectory = @"C:\AzureDevOpsWorkspaces\Packages";
-
-        private static readonly IFileSystemReader FileSystemReader = new FileSystemReader();
-
-        private static readonly IPackageReader PackageReader = new PackageReader();
-
-        private static readonly Dictionary<Activity, DependencyStrategies.IStrategy> DependencyStrategy = new Dictionary<Activity, DependencyStrategies.IStrategy>()
-                                                                                                              {
-                                                                                                                  { Activity.SearchChildren, new DependencyStrategies.SearchChildrenStrategy() },
-                                                                                                                  { Activity.DisplayPackages, new DependencyStrategies.DisplayPackagesStrategy() }
-                                                                                                              };
+        
+        private static IContainer container;
 
         private static string rootDirectory = string.Empty;
 
         private static void Main()
         {
+            var containerBuilder = new ContainerBuilder();
+            containerBuilder.RegisterModule<ReaderModule>();
+            container = containerBuilder.Build();
             Console.Write("Directory path ('{0}' if empty): ", DefaultDirectory);
             rootDirectory = Console.ReadLine();
             if (string.IsNullOrEmpty(rootDirectory))
@@ -36,25 +33,21 @@
             do
             {
                 activity = SelectActivity();
-                if (DependencyStrategy.ContainsKey(activity))
+                var strategy = GetStrategy(activity);
+                if (strategy != null)
                 {
-                    var strategy = DependencyStrategy[activity];
-                    var projects = GetProjects(rootDirectory).ToList();
+                    var projects = GetProjects(rootDirectory)
+                        .ToList();
                     strategy.CreateReport(projects, Console.WriteLine);
                 }
             }
             while (activity != Activity.Exit);
         }
 
-        private static IEnumerable<Location> GetProjects(string rootDirectory)
+        private static IEnumerable<Solution> GetProjects(string rootDirectory)
         {
-            var files = FileSystemReader.GetPackages(rootDirectory);
-            var projects = new List<Location>();
-            foreach (var file in files)
-            {
-                var project = PackageReader.GetPackages(file);
-                yield return project;
-            }
+            var fileSystemReader = container.Resolve<IFileSystemReader>();
+            return fileSystemReader.GetSolutions(rootDirectory);
         }
 
         private static Activity SelectActivity()
@@ -63,7 +56,9 @@
                             {
                                 { Activity.Exit, "[1] - Exit" },
                                 { Activity.SearchChildren, "[2] - Search for projects using reference" },
-                                { Activity.DisplayPackages, "[3] - Display list of packages and versions" }
+                                { Activity.DisplayPackages, "[3] - Display list of packages and versions" },
+                                { Activity.BuildDependenciesGraph, "[4] - Build dependencies graph" },
+                                { Activity.BuildDependenciesLayers, "[5] - Build dependencies layers" }
                             };
 
             foreach (var item in items)
@@ -90,6 +85,16 @@
             while (result <= 0);
 
             return result;
+        }
+
+        private static IStrategy GetStrategy(Activity activity)
+        {
+            if (container.TryResolveNamed(activity.ToString(), typeof(IStrategy), out object strategy))
+            {
+                return (IStrategy)strategy;
+            }
+
+            return null;
         }
     }
 }

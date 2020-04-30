@@ -5,9 +5,11 @@
     using System.Globalization;
     using System.Linq;
 
+    using DependenciesReader.ProjectStructure;
+
     public class SearchChildrenStrategy : IStrategy
     {
-        public void CreateReport(IList<Location> projects, Action<string> reportWriter)
+        public void CreateReport(IList<Solution> projects, Action<string> reportWriter)
         {
             Console.Write("Dependency name: ");
             var dependencyName = Console.ReadLine();
@@ -19,17 +21,17 @@
             }
         }
 
-        private IEnumerable<string> FindData(IList<Location> projects, string dependencyName, string versionNumber)
+        private IEnumerable<string> FindData(IList<Solution> projects, string dependencyName, string versionNumber)
         {
             var result = projects.Where(
-                proj => proj.Packages.Any(
+                proj => proj.Dependencies.Any(
                     pack => pack.Name.Equals(dependencyName, StringComparison.InvariantCultureIgnoreCase)
                             && (string.IsNullOrEmpty(versionNumber)
                                 || pack.Version.Equals(versionNumber, StringComparison.InvariantCultureIgnoreCase))));
             foreach (var location in result)
             {
-                yield return location.Path;
-                foreach (var package in location.Packages.Where(p => p.Name.Equals(dependencyName, StringComparison.InvariantCultureIgnoreCase)))
+                yield return location.Directory;
+                foreach (var package in location.Dependencies.Where(p => p.Name.Equals(dependencyName, StringComparison.InvariantCultureIgnoreCase)))
                 {
                     yield return string.Format(
                         CultureInfo.InvariantCulture,
