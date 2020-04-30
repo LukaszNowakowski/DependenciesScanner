@@ -58,7 +58,7 @@
                                 { Activity.SearchChildren, "[2] - Search for projects using reference" },
                                 { Activity.DisplayPackages, "[3] - Display list of packages and versions" },
                                 { Activity.BuildDependenciesGraph, "[4] - Build dependencies graph" },
-                                { Activity.BuildDependenciesLayers, "[5] - Build dependencies graph" }
+                                { Activity.BuildDependenciesLayers, "[5] - Build dependencies layers" }
                             };
 
             foreach (var item in items)
