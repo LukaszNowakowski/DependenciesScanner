@@ -10,6 +10,8 @@
 
         DisplayPackages = 3,
 
-        BuildDependenciesGraph = 4
+        BuildDependenciesGraph = 4,
+
+        BuildDependenciesLayers = 5
     }
 }

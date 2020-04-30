@@ -19,9 +19,12 @@
                 .AsImplementedInterfaces();
             builder.RegisterType<FileSystem>()
                 .As<IFileSystem>();
+            builder.RegisterType<DependencyStrategies.BuildDependenciesGraph.DependenciesGraphProvider>()
+                .AsImplementedInterfaces();
             ReaderModule.RegisterDependencyStrategy<DependencyStrategies.DisplayPackagesStrategy>(builder, Activity.DisplayPackages);
             ReaderModule.RegisterDependencyStrategy<DependencyStrategies.SearchChildrenStrategy>(builder, Activity.SearchChildren);
             ReaderModule.RegisterDependencyStrategy<DependencyStrategies.BuildDependenciesGraphStrategy>(builder, Activity.BuildDependenciesGraph);
+            ReaderModule.RegisterDependencyStrategy<DependencyStrategies.BuildDependenciesLayersStrategy>(builder, Activity.BuildDependenciesLayers);
         }
 
         private static void RegisterDependencyStrategy<TStrategy>(ContainerBuilder builder, Activity activity)

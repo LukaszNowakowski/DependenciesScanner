@@ -77,8 +77,11 @@
   <ItemGroup>
     <Compile Include="Activity.cs" />
     <Compile Include="DependencyStrategies\BuildDependenciesGraphStrategy.cs" />
-    <Compile Include="DependencyStrategies\BuildDependenciesGraph\DependenciesLayer.cs" />
+    <Compile Include="DependencyStrategies\BuildDependenciesGraph\DependenciesGraphProvider.cs" />
+    <Compile Include="DependencyStrategies\BuildDependenciesGraph\IDependenciesGraphProvider.cs" />
+    <Compile Include="DependencyStrategies\BuildDependenciesLayers\DependenciesLayer.cs" />
     <Compile Include="DependencyStrategies\BuildDependenciesGraph\GraphNode.cs" />
+    <Compile Include="DependencyStrategies\BuildDependenciesLayersStrategy.cs" />
     <Compile Include="DependencyStrategies\DisplayPackagesStrategy.cs" />
     <Compile Include="DependencyStrategies\IStrategy.cs" />
     <Compile Include="DependencyStrategies\SearchChildrenStrategy.cs" />
