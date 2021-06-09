@@ -72,7 +72,7 @@
 
         private static int ReadSelection(string prompt)
         {
-            var result = -1;
+            int result;
             do
             {
                 Console.Write(prompt);
