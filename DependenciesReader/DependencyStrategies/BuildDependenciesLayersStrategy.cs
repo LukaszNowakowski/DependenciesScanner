@@ -12,7 +12,7 @@
 
     public class BuildDependenciesLayersStrategy : IStrategy
     {
-        private IDependenciesGraphProvider graphProvider;
+        private readonly IDependenciesGraphProvider graphProvider;
 
         public BuildDependenciesLayersStrategy(IDependenciesGraphProvider graphProvider)
         {

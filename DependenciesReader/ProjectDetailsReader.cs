@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.IO.Abstractions;
+    using System.Linq;
     using System.Xml;
     using System.Xml.Linq;
     using System.Xml.XPath;
@@ -47,9 +48,14 @@
             var packagesPath = this.PackagesPath(path);
             if (!this.fileSystem.File.Exists(packagesPath))
             {
-                yield break;
+                return this.ReadFromCsProj(path);
             }
 
+            return this.ReadFromProjectJson(packagesPath);
+        }
+
+        private IEnumerable<PackageReference> ReadFromProjectJson(string packagesPath)
+        {
             var json = JObject.Parse(this.fileSystem.File.ReadAllText(packagesPath));
             var packages = json["dependencies"];
             if (packages == null)
@@ -62,6 +68,14 @@
                 var current = new PackageReference(child.Name, child.Value.ToString());
                 yield return current;
             }
+        }
+
+        private IEnumerable<PackageReference> ReadFromCsProj(string projectPath)
+        {
+            var document = XDocument.Parse(this.fileSystem.File.ReadAllText(projectPath));
+            return document
+                .XPathSelectElements("/Project/ItemGroup/PackageReference")
+                .Select(pr => new PackageReference(pr?.Attribute("Include")?.Value, pr?.Attribute("Version")?.Value));
         }
 
         private string PackagesPath(string projectPath)
