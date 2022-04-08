@@ -11,7 +11,7 @@
 
     internal static class Program
     {
-        private const string DefaultDirectory = @"C:\AzureDevOpsWorkspaces\Packages";
+        private const string DefaultDirectory = @"C:\AzureDevOpsWorkspaces\Packages\Main";
         
         private static IContainer container;
 
@@ -58,7 +58,8 @@
                                 { Activity.SearchChildren, "[2] - Search for projects using reference" },
                                 { Activity.DisplayPackages, "[3] - Display list of packages and versions" },
                                 { Activity.BuildDependenciesGraph, "[4] - Build dependencies graph" },
-                                { Activity.BuildDependenciesLayers, "[5] - Build dependencies layers" }
+                                { Activity.BuildDependenciesLayers, "[5] - Build dependencies layers" },
+                                { Activity.Clustering, "[6] - Show clusters" }
                             };
 
             foreach (var item in items)

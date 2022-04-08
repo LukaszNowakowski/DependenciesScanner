@@ -12,6 +12,8 @@
 
         BuildDependenciesGraph = 4,
 
-        BuildDependenciesLayers = 5
+        BuildDependenciesLayers = 5,
+
+        Clustering = 6,
     }
 }

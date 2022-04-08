@@ -19,33 +19,36 @@
         public void CreateReport(IList<Solution> projects, Action<string> reportWriter)
         {
             var nodes = this.graphProvider.CreateGraph(projects);
-            reportWriter("elements: {");
-            reportWriter("\tnodes: [");
-            var outputs = nodes.ToList();
-            for (int i = 0; i < outputs.Count; i++)
+            reportWriter("elements: [");
+            var clusterNames = ClusteringStrategy.GetAllClusters();
+            foreach (var clusterName in clusterNames)
             {
-                var node = outputs[i];
+                reportWriter($"\tv{{ data: {{ id: '{clusterName}', label: '{clusterName}' }} }},");
+            }
+
+            var outputs = nodes.ToList();
+            foreach (var node in outputs)
+            {
+                var name = node.Solution.Projects.Single(NotTestProject).OutputName;
+                var cluster = ClusteringStrategy.GetClusterName(name);
                 var nodeLine = string.Format(
                     CultureInfo.InvariantCulture,
-                    "\t\t{{ data:  {{ id: '{0}', weight: {1} }} }}{2}",
-                    node.Solution.AbsolutePath(@"\"),
-                    node.OutgoingDependencies.Count + 1,
-                    i == outputs.Count - 1 ? string.Empty : ",");
+                    "\t{{ data:  {{ id: '{0}', label: '{0}', parent: '{1}' }} }},",
+                    name,
+                    cluster);
                 reportWriter(nodeLine);
             }
 
-            reportWriter("\t],");
-            reportWriter("\tedges: [");
             foreach (var node in nodes)
             {
-                for (int i = 0; i < node.OutgoingDependencies.Count; i++)
+                for (var i = 0; i < node.OutgoingDependencies.Count; i++)
                 {
                     var child = node.OutgoingDependencies[i];
-                    var start = node.Solution.AbsolutePath(@"\");
-                    var end = child.Solution.AbsolutePath(@"\");
+                    var start = node.Solution.Projects.Single(NotTestProject).OutputName;
+                    var end = child.Solution.Projects.Single(NotTestProject).OutputName;
                     var edgeLine = string.Format(
                         CultureInfo.InvariantCulture,
-                        "\t\t{{ data: {{ source: '{0}', target: '{1}', directed: 'true'}} }}{2}",
+                        "\t{{ data: {{ id: '{0}->{1}', source: '{0}', target: '{1}', directed: 'true'}} }}{2}",
                         start,
                         end,
                         i == outputs.Count - 1 ? string.Empty : ",");
@@ -54,7 +57,31 @@
             }
 
             reportWriter("\t]");
-            reportWriter("}");
+        }
+
+        private static bool NotTestProject(Project project)
+        {
+            if (project.OutputName.Contains("UnitTests"))
+            {
+                return false;
+            }
+
+            if (project.OutputName.Contains("Tests"))
+            {
+                return false;
+            }
+
+            if (project.OutputName.Contains("UsageExample"))
+            {
+                return false;
+            }
+
+            if (project.OutputName.Contains("BasicApplication"))
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

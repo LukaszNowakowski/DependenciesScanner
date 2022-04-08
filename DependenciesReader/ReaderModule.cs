@@ -25,6 +25,7 @@
             ReaderModule.RegisterDependencyStrategy<DependencyStrategies.SearchChildrenStrategy>(builder, Activity.SearchChildren);
             ReaderModule.RegisterDependencyStrategy<DependencyStrategies.BuildDependenciesGraphStrategy>(builder, Activity.BuildDependenciesGraph);
             ReaderModule.RegisterDependencyStrategy<DependencyStrategies.BuildDependenciesLayersStrategy>(builder, Activity.BuildDependenciesLayers);
+            ReaderModule.RegisterDependencyStrategy<DependencyStrategies.ClusteringStrategy>(builder, Activity.Clustering);
         }
 
         private static void RegisterDependencyStrategy<TStrategy>(ContainerBuilder builder, Activity activity)
